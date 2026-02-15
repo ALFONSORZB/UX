@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitControl</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background:#f4f6f9;
+}
+
+header{
+    background:#1f2a44;
+    color:white;
+    padding:15px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.menu button{
+    background:none;
+    border:none;
+    color:white;
+    margin-left:15px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.hero{
+    text-align:center;
+    padding:60px 20px;
+    background:linear-gradient(135deg,#1f2a44,#2ecc71);
+    color:white;
+}
+
+.hero h1{
+    margin-bottom:10px;
+}
+
+.hero p{
+    font-size:16px;
+    max-width:500px;
+    margin:auto;
+}
+
+.container{
+    width:350px;
+    margin:40px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+input{
+    width:100%;
+    padding:8px;
+    margin-top:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button.primary{
+    width:100%;
+    padding:10px;
+    margin-top:15px;
+    background:#2ecc71;
+    border:none;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button.primary:disabled{
+    background:#999;
+}
+
+.mensaje{
+    margin-top:10px;
+    font-size:13px;
+}
+
+.dashboard{
+    display:none;
+    padding:40px;
+    text-align:center;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin:20px auto;
+    width:300px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">FitControl</div>
+<div class="menu">
+<button onclick="mostrarLogin()">Iniciar sesión</button>
+<button onclick="mostrarRegistro()">Registrarse</button>
+</div>
+</header>
+
+<div class="hero">
+<h1>Organiza tu dinero de manera inteligente</h1>
+<p>FitControl te ayuda a registrar tus ingresos, controlar tus gastos y cumplir tus metas financieras de forma simple y segura.</p>
+</div>
+
+<div id="registro" class="container">
+<h3>Crear cuenta</h3>
+<input type="text" id="nombre" placeholder="Nombre completo">
+<input type="email" id="correo" placeholder="Correo electrónico">
+<input type="password" id="clave" placeholder="Contraseña (mínimo 8 caracteres)">
+<input type="number" id="ingreso" placeholder="Ingreso mensual (opcional)">
+<button id="btnRegistro" class="primary" disabled>Crear cuenta</button>
+<div id="mensajeRegistro" class="mensaje"></div>
+</div>
+
+<div id="login" class="container" style="display:none;">
+<h3>Iniciar sesión</h3>
+<input type="email" placeholder="Correo electrónico">
+<input type="password" placeholder="Contraseña">
+<button class="primary">Ingresar</button>
+</div>
+
+<div id="dashboard" class="dashboard">
+
+<h2>Bienvenido a tu panel financiero</h2>
+
+<div class="card">
+<h4>💰 Controla tus gastos</h4>
+<p>Cada peso cuenta. Registra tus movimientos y mantén el control.</p>
+</div>
+
+<div class="card">
+<h4>📈 Construye tus metas</h4>
+<p>Define objetivos claros y monitorea tu progreso cada mes.</p>
+</div>
+
+<div class="card">
+<h4>🚀 Mejora tus hábitos</h4>
+<p>Pequeños cambios diarios generan grandes resultados financieros.</p>
+</div>
+
+</div>
+
+<script>
+
+const nombre = document.getElementById("nombre");
+const correo = document.getElementById("correo");
+const clave = document.getElementById("clave");
+const btnRegistro = document.getElementById("btnRegistro");
+const mensajeRegistro = document.getElementById("mensajeRegistro");
+
+function validar(){
+    if(
+        nombre.value.trim() !== "" &&
+        correo.value.trim() !== "" &&
+        clave.value.length >= 8
+    ){
+        btnRegistro.disabled = false;
+    }else{
+        btnRegistro.disabled = true;
+    }
+}
+
+nombre.addEventListener("input", validar);
+correo.addEventListener("input", validar);
+clave.addEventListener("input", validar);
+
+btnRegistro.addEventListener("click", function(){
+    mensajeRegistro.innerText = "Cuenta creada correctamente.";
+    setTimeout(()=>{
+        document.getElementById("registro").style.display="none";
+        document.querySelector(".hero").style.display="none";
+        document.getElementById("dashboard").style.display="block";
+    },1000);
+});
+
+function mostrarLogin(){
+    document.getElementById("registro").style.display="none";
+    document.getElementById("login").style.display="block";
+}
+
+function mostrarRegistro(){
+    document.getElementById("login").style.display="none";
+    document.getElementById("registro").style.display="block";
+}
+
+</script>
+
+</body>
+</html>

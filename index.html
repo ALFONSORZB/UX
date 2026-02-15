@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitControl - Registro</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f2f2f2;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:white;
+    padding:30px;
+    width:350px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input, select{
+    width:100%;
+    padding:8px;
+    margin:8px 0;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#2c3e50;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+.error{
+    color:red;
+    font-size:12px;
+}
+.hidden{
+    display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Registro FitControl</h2>
+
+<!-- PASO 1 -->
+<div id="step1">
+<input type="text" id="nombre" placeholder="Nombre completo">
+<input type="email" id="email" placeholder="Correo electrónico">
+<input type="password" id="password" placeholder="Contraseña">
+<input type="password" id="confirmPassword" placeholder="Confirmar contraseña">
+<div id="error1" class="error"></div>
+<button onclick="nextStep1()">Siguiente</button>
+</div>
+
+<!-- PASO 2 -->
+<div id="step2" class="hidden">
+<input type="tel" id="telefono" placeholder="Teléfono (Obligatorio)">
+<input type="date" id="fecha">
+<input type="number" id="ingreso" placeholder="Ingreso mensual (Obligatorio)">
+<input type="file" id="foto">
+<div id="error2" class="error"></div>
+<button onclick="nextStep2()">Siguiente</button>
+</div>
+
+<!-- PASO 3 -->
+<div id="step3" class="hidden">
+<p>Selecciona mínimo 3 metas financieras:</p>
+
+<input type="checkbox" value="Ahorrar"> Ahorrar<br>
+<input type="checkbox" value="Invertir"> Invertir<br>
+<input type="checkbox" value="Viajar"> Viajar<br>
+<input type="checkbox" value="Comprar casa"> Comprar casa<br>
+<input type="checkbox" value="Emergencias"> Fondo de emergencia<br>
+
+<br>
+
+<textarea placeholder="Acepta términos escribiendo: ACEPTO"></textarea>
+
+<div id="error3" class="error"></div>
+<button onclick="submitForm()">Crear cuenta</button>
+</div>
+
+</div>
+
+<script>
+
+function nextStep1(){
+    let nombre = document.getElementById("nombre").value;
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    let confirmPassword = document.getElementById("confirmPassword").value;
+
+    if(nombre === "" || email === "" || password === "" || confirmPassword === ""){
+        document.getElementById("error1").innerText = "Todos los campos son obligatorios.";
+        return;
+    }
+
+    if(password.length < 8){
+        document.getElementById("error1").innerText = "La contraseña debe tener mínimo 8 caracteres.";
+        return;
+    }
+
+    if(password !== confirmPassword){
+        document.getElementById("error1").innerText = "Las contraseñas no coinciden.";
+        return;
+    }
+
+    document.getElementById("step1").classList.add("hidden");
+    document.getElementById("step2").classList.remove("hidden");
+}
+
+function nextStep2(){
+    let telefono = document.getElementById("telefono").value;
+    let fecha = document.getElementById("fecha").value;
+    let ingreso = document.getElementById("ingreso").value;
+    let foto = document.getElementById("foto").value;
+
+    if(telefono === "" || fecha === "" || ingreso === "" || foto === ""){
+        document.getElementById("error2").innerText = "Debes completar todos los campos obligatorios.";
+        return;
+    }
+
+    if(ingreso < 1000){
+        document.getElementById("error2").innerText = "Ingreso inválido.";
+        return;
+    }
+
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("step3").classList.remove("hidden");
+}
+
+function submitForm(){
+    let checkboxes = document.querySelectorAll("input[type='checkbox']:checked");
+    let textarea = document.querySelector("textarea").value;
+
+    if(checkboxes.length < 3){
+        document.getElementById("error3").innerText = "Debes seleccionar mínimo 3 metas.";
+        return;
+    }
+
+    if(textarea !== "ACEPTO"){
+        document.getElementById("error3").innerText = "Debes escribir ACEPTO para continuar.";
+        return;
+    }
+
+    alert("Cuenta creada correctamente");
+}
+
+</script>
+
+</body>
+</html>
